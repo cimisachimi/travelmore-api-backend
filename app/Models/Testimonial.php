@@ -1,43 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Models;
 
-// app/Http/Controllers/Api/TestimonialController.php
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-use App\Http\Controllers\Controller;
-use App\Models\Testimonial;
-use Illuminate\Http\Request;
-
-class TestimonialController extends Controller
+class Testimonial extends Model
 {
-    public function index() {
-        return Testimonial::latest()->get();
-    }
+    use HasFactory;
 
-    public function store(Request $request) {
-        $validated = $request->validate([
-            'author_name' => 'required|string|max:255',
-            'quote' => 'required|string',
-        ]);
-        $testimonial = Testimonial::create($validated);
-        return response()->json($testimonial, 201);
-    }
-
-    public function show(Testimonial $testimonial) {
-        return $testimonial;
-    }
-
-    public function update(Request $request, Testimonial $testimonial) {
-        $validated = $request->validate([
-            'author_name' => 'sometimes|required|string|max:255',
-            'quote' => 'sometimes|required|string',
-        ]);
-        $testimonial->update($validated);
-        return response()->json($testimonial);
-    }
-
-    public function destroy(Testimonial $testimonial) {
-        $testimonial->delete();
-        return response()->json(null, 204); // 204 No Content
-    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'author_name',
+        'quote',
+    ];
 }
